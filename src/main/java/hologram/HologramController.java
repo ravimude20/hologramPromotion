@@ -1,25 +1,30 @@
 package hologram;
 
-import com.defano.jsegue.AnimatedSegue;
-import com.defano.jsegue.SegueAnimationObserver;
-import com.defano.jsegue.SegueBuilder;
-import com.defano.jsegue.SegueName;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.imgscalr.Scalr;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JLabel;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 @RestController()
 @Api(value = "Hologram", description = "Hologram API")
-public class HologramController implements SegueAnimationObserver {
+public class HologramController {
 
   private JLabel myDisplay;
 
@@ -36,14 +41,6 @@ public class HologramController implements SegueAnimationObserver {
     BufferedImage image;
     try {
       image = ImageIO.read(file);
-      AnimatedSegue mySegue = SegueBuilder.of(SegueName.DISSOLVE)
-              .withSource(image)
-              .withDestination(image)
-              .withDuration(1500, TimeUnit.MILLISECONDS)      // Animation lasts 1.5 seconds
-              .withMaxFramesPerSecond(30)                     // No more than 30fps
-              .withAnimationObserver(this)                    // Make this class an observer
-              .build();
-      mySegue.start();
       HologramController hologramController = new HologramController();
       hologramController.hologramImageGenerator(image);
       result = true;
@@ -69,7 +66,8 @@ public class HologramController implements SegueAnimationObserver {
     try {
       image = ImageIO.read(file);
       HologramController hologramController = new HologramController();
-      hologramController.generateHologramImageWithTextOnImage(text, image);
+      File newFile = new File("/Users/1023556/Desktop/Text.jpeg");
+      hologramController.generateHologramImageWithTextOnImage(text, image, newFile);
       result = true;
     } catch (IOException e) {
       e.printStackTrace();
@@ -115,7 +113,7 @@ public class HologramController implements SegueAnimationObserver {
     hologramImageGenerator(image);
   }
 
-  public void generateHologramImageWithTextOnImage(String text, BufferedImage image) {
+  public void generateHologramImageWithTextOnImage(String text, BufferedImage image, File file) {
     Graphics g = image.getGraphics();
     g.setFont(g.getFont().deriveFont(80F));
     g.setColor(Color.BLACK);
@@ -125,7 +123,7 @@ public class HologramController implements SegueAnimationObserver {
     g.dispose();
     hologramImageGenerator(image);
     try {
-      ImageIO.write(image, "png", new File("/Users/1023556/Desktop/writeImage.png"));
+      ImageIO.write(image, "png", file);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -187,8 +185,17 @@ public class HologramController implements SegueAnimationObserver {
     return dest;
   }
 
-  @Override
-  public void onFrameRendered(AnimatedSegue segue, BufferedImage image) {
-    myDisplay.setIcon(new ImageIcon(image));
+  public void test() {
+    String inputFileName = "/Users/1023556/Desktop/Beer_new.jpg";
+    File f = new File(inputFileName);
+    BufferedImage img;
+    try {
+      img = ImageIO.read(f);
+      BufferedImage thumbImg = Scalr.resize(img, Scalr.Method.QUALITY, Scalr.Mode.AUTOMATIC, 800, 400, Scalr.OP_ANTIALIAS);
+      File outputFile = new File("/Users/1023556/Desktop/zoomed.jpg");
+      ImageIO.write(thumbImg, "jpg", outputFile);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }
