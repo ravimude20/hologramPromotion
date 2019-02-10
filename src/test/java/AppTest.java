@@ -51,7 +51,7 @@ public class AppTest {
     try {
       image = ImageIO.read(file);
       ImageOutputStream imageOutputStream = new FileImageOutputStream(new File("/Users/1023556/Desktop/new_gif.gif"));
-      gifCreator.getRoundRotationGif(image, imageOutputStream);
+      gifCreator.createRoundRotationGif(image, imageOutputStream);
     } catch (IOException e) {
       e.printStackTrace();
     }

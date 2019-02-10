@@ -1,12 +1,17 @@
 package hologram;
 
-import java.awt.*;
+import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 public class Util {
 
   private static int ROTATION_ANGLE = 4;
+
+  public static BufferedImage[] getZoomImages(BufferedImage masterImg) {
+
+    return null;
+  }
 
   public static BufferedImage[] getRoundRotatedImages(BufferedImage masterImg) {
 
@@ -25,16 +30,11 @@ public class Util {
   public static BufferedImage rotateImageByDegrees(BufferedImage masterImg, double angle) {
 
     double rads = Math.toRadians(angle);
-//    double sin = Math.abs(Math.sin(rads)), cos = Math.abs(Math.cos(rads));
     int w = masterImg.getWidth();
     int h = masterImg.getHeight();
-//    int newWidth = (int) Math.floor(w * cos + h * sin);
-//    int newHeight = (int) Math.floor(h * cos + w * sin);
-
     BufferedImage rotated = new BufferedImage(w, h, masterImg.getType());
     Graphics2D g2d = rotated.createGraphics();
     AffineTransform at = new AffineTransform();
-//    at.translate((newWidth - w) / 2, (newHeight - h) / 2);
 
     int x = w / 2;
     int y = h / 2;

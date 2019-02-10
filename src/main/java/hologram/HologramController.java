@@ -191,7 +191,7 @@ public class HologramController {
     BufferedImage img;
     try {
       img = ImageIO.read(f);
-      BufferedImage thumbImg = Scalr.resize(img, Scalr.Method.QUALITY, Scalr.Mode.AUTOMATIC, 800, 400, Scalr.OP_ANTIALIAS);
+      BufferedImage thumbImg = Scalr.resize(img, Scalr.Method.QUALITY, Scalr.Mode.AUTOMATIC, 50, 30, Scalr.OP_ANTIALIAS);
       File outputFile = new File("/Users/1023556/Desktop/zoomed.jpg");
       ImageIO.write(thumbImg, "jpg", outputFile);
     } catch (IOException e) {
