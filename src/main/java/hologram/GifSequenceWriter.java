@@ -1,10 +1,17 @@
 package hologram;
 
-import javax.imageio.*;
-import javax.imageio.metadata.*;
-import javax.imageio.stream.*;
-import java.awt.image.*;
-import java.io.*;
+import javax.imageio.IIOException;
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageTypeSpecifier;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.metadata.IIOMetadataNode;
+import javax.imageio.stream.ImageOutputStream;
+
+import java.awt.image.RenderedImage;
+import java.io.IOException;
 import java.util.Iterator;
 
 public class GifSequenceWriter {
@@ -139,11 +146,3 @@ public class GifSequenceWriter {
     return (node);
   }
 }
-/**
- public GifSequenceWriter(
- BufferedOutputStream outputStream,
- int imageType,
- int timeBetweenFramesMS,
- boolean loopContinuously) {
-
- */

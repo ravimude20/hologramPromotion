@@ -1,5 +1,4 @@
-import hologram.HologramController;
-import hologram.GifCreator;
+import hologram.*;
 import org.junit.Test;
 
 import javax.imageio.ImageIO;
@@ -13,6 +12,7 @@ public class AppTest {
 
   private HologramController hologramController = new HologramController();
   private GifCreator gifCreator = new GifCreator();
+  private VideoCreator videoCreator = new VideoCreator();
 
   // This is for prism. Not going to work on hologram fan
   public void hologramImageGenerator_whenValidImage_generateHologramImage() throws IOException {
@@ -55,6 +55,19 @@ public class AppTest {
     } catch (IOException e) {
       e.printStackTrace();
     }
-
   }
+
+  // Create Video from set of buffered Images
+  @Test
+  public void get_mp4_video() {
+    File file = new File("/Users/1023556/Desktop/coca-cola.png");
+    BufferedImage image;
+    try {
+        image = ImageIO.read(file);
+      BufferedImage [] bufferedImages = Util.getRoundRotatedImages(image);
+      videoCreator.getMp4VideoFromImages(bufferedImages);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
 }
