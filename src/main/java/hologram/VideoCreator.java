@@ -11,11 +11,10 @@ import java.io.IOException;
 
 public class VideoCreator {
 
-  SeekableByteChannel out = null;
-
-  public void getMp4VideoFromImages(BufferedImage [] bufferedImages) {
+  public static void getMp4VideoFromImages(BufferedImage [] bufferedImages, String writableChannel) {
+    SeekableByteChannel out = null;
     try {
-      out = NIOUtils.writableFileChannel("//Users/1023556/Desktop/output.mp4");
+      out = NIOUtils.writableFileChannel(writableChannel);
       AWTSequenceEncoder encoder = new AWTSequenceEncoder(out, Rational.R(25, 2));
       for (BufferedImage image : bufferedImages) {
         encoder.encodeImage(image);

@@ -1,16 +1,45 @@
 package hologram;
 
-import java.awt.Graphics2D;
+import org.imgscalr.Scalr;
+
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 public class Util {
 
   private static int ROTATION_ANGLE = 4;
+  private static int ZOOMING_ANGLE = 13;
 
   public static BufferedImage[] getZoomImages(BufferedImage masterImg) {
+    BufferedImage [] bufferedImages = new BufferedImage[120];
+    int width = masterImg.getWidth();
+    int height = masterImg.getHeight();
+    bufferedImages[0] = masterImg;
+    for(int i=1; i<60; i++) {
+      width = width - ZOOMING_ANGLE;
+      height = height - ZOOMING_ANGLE;
+//      BufferedImage image = new BufferedImage(width, height, masterImg.getType());
+      BufferedImage image = Scalr.resize(masterImg, Scalr.Method.QUALITY, Scalr.Mode.AUTOMATIC, width, height, Scalr.OP_ANTIALIAS);
+      Graphics g = image.getGraphics();
+      g.setColor(Color.BLACK);
+//      AffineTransform at = new AffineTransform();
+//
+//      int x = width / 2;
+//      int y = height / 2;
+//
+//      at.scale(x, y);
+      bufferedImages[i] = image;
+    }
 
-    return null;
+    for(int i=60; i<120; i++){
+      width = width + ZOOMING_ANGLE;
+      height = height + ZOOMING_ANGLE;
+      BufferedImage image = Scalr.resize(masterImg, Scalr.Method.QUALITY, Scalr.Mode.AUTOMATIC, width, height, Scalr.OP_ANTIALIAS);
+      bufferedImages[i] = image;
+    }
+
+    return bufferedImages;
   }
 
   public static BufferedImage[] getRoundRotatedImages(BufferedImage masterImg) {
@@ -27,7 +56,7 @@ public class Util {
     return bufferedImages;
   }
 
-  public static BufferedImage rotateImageByDegrees(BufferedImage masterImg, double angle) {
+  static BufferedImage rotateImageByDegrees(BufferedImage masterImg, double angle) {
 
     double rads = Math.toRadians(angle);
     int w = masterImg.getWidth();

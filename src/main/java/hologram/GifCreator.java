@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class GifCreator {
 
-  public void createRoundRotationGif(BufferedImage masterImg, ImageOutputStream imageOutputStream) {
+  public static void createRoundRotationGif(BufferedImage masterImg, ImageOutputStream imageOutputStream) {
 
     try{
       BufferedImage [] bufferedImages = Util.getRoundRotatedImages(masterImg);
@@ -23,7 +23,7 @@ public class GifCreator {
     }
   }
 
-  public void createZoomGif(BufferedImage masterImg, ImageOutputStream imageOutputStream) {
+  public static void createZoomGif(BufferedImage masterImg, ImageOutputStream imageOutputStream) {
     try{
       BufferedImage [] bufferedImages = Util.getZoomImages(masterImg);
       int milliSeconds = 1000/bufferedImages.length;

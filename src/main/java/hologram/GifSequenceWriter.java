@@ -14,10 +14,10 @@ import java.awt.image.RenderedImage;
 import java.io.IOException;
 import java.util.Iterator;
 
-public class GifSequenceWriter {
-  protected ImageWriter gifWriter;
-  protected ImageWriteParam imageWriteParam;
-  protected IIOMetadata imageMetaData;
+class GifSequenceWriter {
+  ImageWriter gifWriter;
+  ImageWriteParam imageWriteParam;
+  IIOMetadata imageMetaData;
 
   /**
    * Creates a new GifSequenceWriter
@@ -29,7 +29,7 @@ public class GifSequenceWriter {
    * @throws IIOException if no gif ImageWriters are found
    * @author Elliot Kroo (elliot[at]kroo[dot]net)
    */
-  public GifSequenceWriter(
+  GifSequenceWriter(
           ImageOutputStream outputStream,
           int imageType,
           int timeBetweenFramesMS,
@@ -90,7 +90,7 @@ public class GifSequenceWriter {
     gifWriter.prepareWriteSequence(null);
   }
 
-  public void writeToSequence(RenderedImage img) throws IOException {
+  void writeToSequence(RenderedImage img) throws IOException {
     gifWriter.writeToSequence(
             new IIOImage(
                     img,
@@ -103,7 +103,7 @@ public class GifSequenceWriter {
    * Close this GifSequenceWriter object. This does not close the underlying
    * stream, just finishes off the GIF.
    */
-  public void close() throws IOException {
+  void close() throws IOException {
     gifWriter.endWriteSequence();
   }
 

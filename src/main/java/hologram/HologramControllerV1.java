@@ -19,12 +19,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 @RestController()
-@Api(value = "Hologram", description = "Hologram API")
-public class HologramController {
+@Api(value = "Hologram/V1/", description = "Hologram API")
+public class HologramControllerV1 {
 
   private JLabel myDisplay;
 
@@ -41,8 +40,8 @@ public class HologramController {
     BufferedImage image;
     try {
       image = ImageIO.read(file);
-      HologramController hologramController = new HologramController();
-      hologramController.hologramImageGenerator(image);
+      HologramControllerV1 hologramControllerV1 = new HologramControllerV1();
+      hologramControllerV1.hologramImageGenerator(image);
       result = true;
     } catch (IOException e) {
       e.printStackTrace();
@@ -65,9 +64,9 @@ public class HologramController {
     BufferedImage image;
     try {
       image = ImageIO.read(file);
-      HologramController hologramController = new HologramController();
+      HologramControllerV1 hologramControllerV1 = new HologramControllerV1();
       File newFile = new File("/Users/1023556/Desktop/Text.jpeg");
-      hologramController.generateHologramImageWithTextOnImage(text, image, newFile);
+      hologramControllerV1.generateHologramImageWithTextOnImage(text, image, newFile);
       result = true;
     } catch (IOException e) {
       e.printStackTrace();
@@ -191,7 +190,7 @@ public class HologramController {
     BufferedImage img;
     try {
       img = ImageIO.read(f);
-      BufferedImage thumbImg = Scalr.resize(img, Scalr.Method.QUALITY, Scalr.Mode.AUTOMATIC, 50, 30, Scalr.OP_ANTIALIAS);
+      BufferedImage thumbImg = Scalr.resize(img, Scalr.Method.QUALITY, Scalr.Mode.AUTOMATIC, 200, 200, Scalr.OP_ANTIALIAS);
       File outputFile = new File("/Users/1023556/Desktop/zoomed.jpg");
       ImageIO.write(thumbImg, "jpg", outputFile);
     } catch (IOException e) {
