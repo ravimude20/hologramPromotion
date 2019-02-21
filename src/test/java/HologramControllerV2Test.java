@@ -18,7 +18,7 @@ public class HologramControllerV2Test {
       File file = ResourceUtils.getFile("classpath:img/cocacola/coca-cola.png");
       BufferedImage image;
       image = ImageIO.read(file);
-      ImageOutputStream imageOutputStream = new FileImageOutputStream(new File(file.getParent()+"coca-cola.gif"));
+      ImageOutputStream imageOutputStream = new FileImageOutputStream(new File(file.getParent()+".gif"));
       GifCreator.createRoundRotationGif(image, imageOutputStream);
     } catch (IOException e) {
       e.printStackTrace();
@@ -30,7 +30,7 @@ public class HologramControllerV2Test {
   public void getMp4video_fromRoundRotationImages() {
     try {
       File file = ResourceUtils.getFile("classpath:img/cocacola/coca-cola.png");
-      String outputFile = file.getParent()+"coca-cola.mp4";
+      String outputFile = file.getParent()+".mp4";
       BufferedImage image;
       image = ImageIO.read(file);
       BufferedImage [] bufferedImages = Util.getRoundRotatedImages(image);

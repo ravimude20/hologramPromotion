@@ -1,17 +1,14 @@
 package hologram;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.imgscalr.Scalr;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.imageio.ImageIO;
-import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -22,12 +19,10 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 
 @RestController()
-@Api(value = "Hologram/V1/", description = "Hologram API")
+@RequestMapping(value = "hologram/v1/")
 public class HologramControllerV1 {
 
-  private JLabel myDisplay;
-
-  @GetMapping
+  @RequestMapping(value = "hello/hologram", method = RequestMethod.GET)
   public String helloGradle() {
     return "Hello Gradle!";
   }
