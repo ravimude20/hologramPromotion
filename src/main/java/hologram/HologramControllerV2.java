@@ -31,6 +31,9 @@ public class HologramControllerV2 {
   public ResponseEntity<List<String>> getAllProducts() {
      List<String> allProductsList = new ArrayList<>();
      allProductsList.add("coca-cola");
+    allProductsList.add("hbeer");
+    allProductsList.add("nike-shoe");
+    allProductsList.add("puma-shoe");
     final HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
     return new ResponseEntity<>(allProductsList, headers, HttpStatus.OK);
@@ -40,8 +43,8 @@ public class HologramControllerV2 {
   @ApiOperation(value = "Get all templates available")
   public ResponseEntity<List<String>> getAllTemplates() {
     List<String> allTemplates = new ArrayList<>();
-    allTemplates.add("roundRotation");
-    allTemplates.add("zoomEffect");
+    allTemplates.add(Template.ROUND_ROTATION.getValue());
+    allTemplates.add(Template.ZOOM_EFFECT.getValue());
     final HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
     return new ResponseEntity<>(allTemplates, headers, HttpStatus.OK);
