@@ -36,7 +36,6 @@ class TextToImageDemo{
     Graphics2D g = image.createGraphics();
 
     //set color and other parameters
-    g.setColor(Color.WHITE);
     g.fillRect(0, 0, w, h);
     g.setColor(Color.BLACK);
     g.setFont(font);

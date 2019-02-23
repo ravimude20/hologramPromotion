@@ -18,18 +18,8 @@ public class HologramControllerV1Test {
 
   // This is for prism. Not going to work on hologram fan
   public void generateHologramFromText_whenValidText_generateHologramImage() {
-    String text = "30% off on cocacola";
+    String text = "30% off on coca-cola";
     hologramControllerV1.generateHologramFromText(text);
-  }
-
-  // This is for prism. Not going to work on hologram fan
-  public void generateHologramImageWithTextOnImage() throws IOException {
-    String text = "Buy 2 get 15% off";
-    File file = new File("/Users/1023556/Desktop/cocacola.png");
-    BufferedImage image = ImageIO.read(file);
-    HologramControllerV1 hologramControllerV1 = new HologramControllerV1();
-    File outputFile = new File("/Users/1023556/Desktop/writeImage.png");
-    hologramControllerV1.generateHologramImageWithTextOnImage(text, image, outputFile);
   }
 
   // Richa Code Test

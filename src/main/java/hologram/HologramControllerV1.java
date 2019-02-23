@@ -1,6 +1,7 @@
 package hologram;
 
 import io.swagger.annotations.ApiOperation;
+
 import org.imgscalr.Scalr;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,14 +10,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.imageio.ImageIO;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 
 @RestController()
 @RequestMapping(value = "hologram/v1/")
@@ -42,31 +44,6 @@ public class HologramControllerV1 {
       e.printStackTrace();
     }
    return result;
-  }
-
-  @RequestMapping(value = "text/image/generator", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(value = "Generate Hologram Image from text")
-  public Boolean hologramTextImage(@RequestParam("text") String text) {
-    generateHologramFromText(text);
-    return true;
-  }
-
-  @RequestMapping(value = "imageWithText/generator", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-  @ApiOperation(value = "Generate Hologram Image from text")
-  public Boolean hologramImageWithTextOnImage(@RequestParam("imageSrc") String imageSrc, @RequestParam("text") String text) {
-    Boolean result = false;
-    File file = new File(imageSrc);
-    BufferedImage image;
-    try {
-      image = ImageIO.read(file);
-      HologramControllerV1 hologramControllerV1 = new HologramControllerV1();
-      File newFile = new File("/Users/1023556/Desktop/Text.jpeg");
-      hologramControllerV1.generateHologramImageWithTextOnImage(text, image, newFile);
-      result = true;
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return result;
   }
 
   private BufferedImage generateImageFromText(String text) {
@@ -106,23 +83,6 @@ public class HologramControllerV1 {
     BufferedImage image = generateImageFromText(text);
     hologramImageGenerator(image);
   }
-
-  public void generateHologramImageWithTextOnImage(String text, BufferedImage image, File file) {
-    Graphics g = image.getGraphics();
-    g.setFont(g.getFont().deriveFont(80F));
-    g.setColor(Color.BLACK);
-    g.drawString(text, image.getWidth()/8, image.getHeight()/4);
-    Font font = new Font("Tahoma", Font.BOLD, 100);
-    g.setFont(font);
-    g.dispose();
-    hologramImageGenerator(image);
-    try {
-      ImageIO.write(image, "png", file);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
 
   public void hologramImageGenerator(BufferedImage image) {
     int imagesCount = 4;
