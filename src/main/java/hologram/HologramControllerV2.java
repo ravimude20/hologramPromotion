@@ -36,6 +36,7 @@ public class HologramControllerV2 {
     allProductsList.add("puma-shoe");
     final HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
+    headers.add("Access-Control-Allow-Origin", "*");
     return new ResponseEntity<>(allProductsList, headers, HttpStatus.OK);
   }
 
