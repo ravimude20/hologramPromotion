@@ -111,7 +111,7 @@ public class HologramControllerV2 {
     }
     if (output != null) {
       final HttpHeaders headers = new HttpHeaders();
-      headers.setContentType(MediaType.IMAGE_GIF);
+      headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
       return new ResponseEntity<>(output, headers, HttpStatus.OK);
     }
     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
