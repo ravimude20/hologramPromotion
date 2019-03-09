@@ -33,7 +33,7 @@ public class HologramControllerV2Test {
   @Test
   public void getMp4video_fromRoundRotationImages() {
     try {
-      File file = ResourceUtils.getFile("classpath:img/coca-cola/coca-cola.png");
+      File file = ResourceUtils.getFile("classpath:img/coca-cola1/coca-cola1.png");
       String offerText = "Buy 2 get 15% off";
       String outputFile = file.getParent()+".mp4";
       BufferedImage image;
@@ -64,7 +64,7 @@ public class HologramControllerV2Test {
   @Test
   public void getMp4video_fromZoomedImages() {
     try {
-      File file = ResourceUtils.getFile("classpath:img/coca-cola/coca-cola.png");
+      File file = ResourceUtils.getFile("classpath:img/coca-cola1/coca-cola1.png");
       String outputFile = file.getParent()+".mp4";
       String offerText = "Buy 2 get 15% off";
       BufferedImage image;
@@ -77,7 +77,7 @@ public class HologramControllerV2Test {
   }
 
   public void test() throws IOException {
-    File file = ResourceUtils.getFile("classpath:img/coca-cola/coca-cola.png");
+    File file = ResourceUtils.getFile("classpath:img/coca-cola1/coca-cola1.png");
     BufferedImage image;
     image = ImageIO.read(file);
     List<BufferedImage> bufferedImageList = new ArrayList<>();

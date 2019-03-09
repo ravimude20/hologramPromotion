@@ -32,7 +32,9 @@ public class HologramControllerV2 {
   @ApiOperation(value = "Get all products available in the repository")
   public ResponseEntity<List<String>> getAllProducts() {
      List<String> allProductsList = new ArrayList<>();
-     allProductsList.add("coca-cola");
+     allProductsList.add("coca-cola1");
+    allProductsList.add("coca-cola2");
+    allProductsList.add("coca-cola3");
     allProductsList.add("hbeer");
     allProductsList.add("nike-shoe");
     allProductsList.add("puma-shoe");

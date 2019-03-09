@@ -72,10 +72,10 @@ public class Util {
 
   private static void getTextOnImageZoom(String offerText, BufferedImage tempImage) {
     Graphics g = tempImage.getGraphics();
-    g.setFont(g.getFont().deriveFont(80F));
+    g.setFont(g.getFont().deriveFont(60F));
     g.setColor(Color.WHITE);
     g.drawString(offerText, tempImage.getWidth()/8, tempImage.getHeight()/4);
-    Font font = new Font("Tahoma", Font.BOLD, 100);
+    Font font = new Font("Tahoma", Font.BOLD, 80);
     g.setFont(font);
     g.dispose();
   }
