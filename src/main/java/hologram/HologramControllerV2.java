@@ -27,7 +27,7 @@ import java.util.ArrayList;
 @RequestMapping(value = "hologram/v2/")
 public class HologramControllerV2 {
 
-  @CrossOrigin
+  @CrossOrigin(origins = "*")
   @RequestMapping(value = "get/allProducts", method = RequestMethod.GET)
   @ApiOperation(value = "Get all products available in the repository")
   public ResponseEntity<List<String>> getAllProducts() {
@@ -40,11 +40,10 @@ public class HologramControllerV2 {
     allProductsList.add("puma-shoe");
     final HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
-    headers.add("Access-Control-Allow-Origin", "*");
     return new ResponseEntity<>(allProductsList, headers, HttpStatus.OK);
   }
 
-  @CrossOrigin
+  @CrossOrigin(origins = "*")
   @RequestMapping(value = "get/allTemplates", method = RequestMethod.GET)
   @ApiOperation(value = "Get all templates available")
   public ResponseEntity<List<String>> getAllTemplates() {
@@ -56,7 +55,7 @@ public class HologramControllerV2 {
     return new ResponseEntity<>(allTemplates, headers, HttpStatus.OK);
   }
 
-  @CrossOrigin
+  @CrossOrigin(origins = "*")
   @RequestMapping(value = "image/gif/generator1", method = RequestMethod.POST)
   @ApiOperation(value = "Generate Hologram Gif from simple image")
   public ResponseEntity<byte[]> hologramGifGenerator1(@RequestBody HologramCreationRequest hologramCreationRequest) {
@@ -88,7 +87,7 @@ public class HologramControllerV2 {
     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
-  @CrossOrigin
+  @CrossOrigin(origins = "*")
   @RequestMapping(value = "image/gif/generator", method = RequestMethod.POST)
   @ApiOperation(value = "Generate Hologram Gif from simple image")
   public ResponseEntity<byte[]> hologramGifGenerator(@RequestBody HologramCreationRequest hologramCreationRequest) {
@@ -119,7 +118,7 @@ public class HologramControllerV2 {
     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
-  @CrossOrigin
+  @CrossOrigin(origins = "*")
   @RequestMapping(value = "image/video/generator", method = RequestMethod.POST)
   @ApiOperation(value = "Generate Hologram Gif from simple image")
   public ResponseEntity hologramVideoGenerator(@RequestBody HologramCreationRequest hologramCreationRequest) {
