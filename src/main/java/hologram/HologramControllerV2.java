@@ -1,10 +1,13 @@
 package hologram;
 
+import hologram.Queue.InMemoryQueueService;
+import hologram.Queue.QueueObject;
 import hologram.enums.Template;
 import hologram.request.HologramCreationRequest;
 import io.swagger.annotations.ApiOperation;
 
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,6 +30,9 @@ import java.util.ArrayList;
 @RequestMapping(value = "hologram/v2/")
 public class HologramControllerV2 {
 
+  @Autowired
+  private InMemoryQueueService<QueueObject> inMemoryQueueService;
+
   @CrossOrigin(origins = "*")
   @RequestMapping(value = "get/allProducts", method = RequestMethod.GET)
   @ApiOperation(value = "Get all products available in the repository")
@@ -34,7 +40,7 @@ public class HologramControllerV2 {
      List<String> allProductsList = new ArrayList<>();
      allProductsList.add("coca-cola1");
     allProductsList.add("coca-cola2");
-    allProductsList.add("coca-cola3");
+    allProductsList.add("coca-cola2");
     allProductsList.add("hbeer");
     allProductsList.add("nike-shoe");
     allProductsList.add("puma-shoe");
@@ -136,10 +142,54 @@ public class HologramControllerV2 {
       }
       String outputFile = file.getParent()+"_"+template.getValue().toLowerCase()+".mp4";
       VideoCreator.getMp4VideoFromImages(bufferedImages, outputFile);
+      new Thread(()-> hologramGifGenerator(hologramCreationRequest)).start();
+      QueueObject queueObject = new QueueObject();
+      queueObject.setProductName(productName);
+      queueObject.setImageLink(file.getPath());
+      queueObject.setVideoLink(outputFile);
+      queueObject.setGifLink(file.getParent()+"_"+template.getValue().toLowerCase()+".gif");
+      inMemoryQueueService.add(queueObject);
     } catch (IOException e) {
       e.printStackTrace();
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
     return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  @CrossOrigin(origins = "*")
+  @RequestMapping(value = "get/playList", method = RequestMethod.GET)
+  @ApiOperation(value = "Get the playlist of hologram in queue")
+  public ResponseEntity<List<QueueObject>> getHologramPlayList() {
+
+    List<QueueObject> queueObjects = new ArrayList<>();
+    if (!inMemoryQueueService.isEmpty()) {
+      int size = inMemoryQueueService.size();
+      for(int i=0; i<size; i++) {
+        queueObjects.add(inMemoryQueueService.poll(i));
+      }
+    }
+    final HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+    return new ResponseEntity<>(queueObjects, headers, HttpStatus.OK);
+  }
+
+  @CrossOrigin(origins = "*")
+  @RequestMapping(value = "get/gif", method = RequestMethod.GET)
+  @ApiOperation(value = "Get gif image of the selected product")
+  public ResponseEntity<byte[]> getGifImageForPath(@RequestParam String gifLink) {
+    byte[] output;
+    try {
+      File file = ResourceUtils.getFile("classpath:img/" + gifLink + ".gif");
+      output = Base64.encodeBase64(Files.readAllBytes(file.toPath()));
+    } catch(IOException e) {
+      e.printStackTrace();
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    if (output != null) {
+      final HttpHeaders headers = new HttpHeaders();
+      headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+      return new ResponseEntity<>(output, headers, HttpStatus.OK);
+    }
+    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

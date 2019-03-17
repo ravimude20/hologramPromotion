@@ -30,6 +30,5 @@ dependencies {
     compile("io.springfox:springfox-swagger2:2.4.0")
     compile("org.jcodec:jcodec:0.2.2")
     compile("org.jcodec:jcodec-javase:0.2.2")
-    compile group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
     testCompile("junit:junit")
 }

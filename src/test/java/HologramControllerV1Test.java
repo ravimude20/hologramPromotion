@@ -21,9 +21,4 @@ public class HologramControllerV1Test {
     String text = "30% off on coca-cola1";
     hologramControllerV1.generateHologramFromText(text);
   }
-
-  // Richa Code Test
-  public void test() {
-    hologramControllerV1.test();
-  }
 }

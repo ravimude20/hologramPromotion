@@ -2,7 +2,6 @@ package hologram;
 
 import io.swagger.annotations.ApiOperation;
 
-import org.imgscalr.Scalr;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -137,19 +136,5 @@ public class HologramControllerV1 {
     }
     graphics2D.drawRenderedImage(src, null);
     return dest;
-  }
-
-  public void test() {
-    String inputFileName = "/Users/1023556/Desktop/Beer_new.jpg";
-    File f = new File(inputFileName);
-    BufferedImage img;
-    try {
-      img = ImageIO.read(f);
-      BufferedImage thumbImg = Scalr.resize(img, Scalr.Method.QUALITY, Scalr.Mode.AUTOMATIC, 200, 200, Scalr.OP_ANTIALIAS);
-      File outputFile = new File("/Users/1023556/Desktop/zoomed.jpg");
-      ImageIO.write(thumbImg, "jpg", outputFile);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
   }
 }

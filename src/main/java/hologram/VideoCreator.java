@@ -6,7 +6,6 @@ import org.jcodec.common.io.SeekableByteChannel;
 import org.jcodec.common.model.Rational;
 
 import java.awt.image.BufferedImage;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class VideoCreator {
@@ -20,16 +19,10 @@ public class VideoCreator {
         encoder.encodeImage(image);
       }
       encoder.finish();
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
     } catch (IOException e) {
       e.printStackTrace();
     } finally {
       NIOUtils.closeQuietly(out);
     }
-  }
-
-  public void getMp4VideoFromGif(BufferedImage image) {
-
   }
 }
