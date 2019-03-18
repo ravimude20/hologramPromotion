@@ -6,7 +6,6 @@ import hologram.enums.Template;
 import hologram.request.HologramCreationRequest;
 import io.swagger.annotations.ApiOperation;
 
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,7 +21,6 @@ import javax.imageio.stream.ImageOutputStream;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -37,8 +35,8 @@ public class HologramControllerV2 {
   @RequestMapping(value = "get/allProducts", method = RequestMethod.GET)
   @ApiOperation(value = "Get all products available in the repository")
   public ResponseEntity<List<String>> getAllProducts() {
-     List<String> allProductsList = new ArrayList<>();
-     allProductsList.add("coca-cola1");
+    List<String> allProductsList = new ArrayList<>();
+    allProductsList.add("coca-cola1");
     allProductsList.add("coca-cola2");
     allProductsList.add("hbeer");
     allProductsList.add("nike-shoe");
@@ -61,21 +59,21 @@ public class HologramControllerV2 {
   }
 
   @CrossOrigin(origins = "*")
-  @RequestMapping(value = "image/gif/generator1", method = RequestMethod.POST)
+  @RequestMapping(value = "image/gif/generator", method = RequestMethod.POST)
   @ApiOperation(value = "Generate Hologram Gif from simple image")
-  public ResponseEntity<String> hologramGifGenerator1(@RequestBody HologramCreationRequest hologramCreationRequest) {
+  public ResponseEntity<String> hologramGifGenerator(@RequestBody HologramCreationRequest hologramCreationRequest) {
     File writeFile = null;
     try {
       String productName = hologramCreationRequest.getProductName();
       String offerText = hologramCreationRequest.getOfferText();
       Template template = hologramCreationRequest.getTemplate();
-      File file = ResourceUtils.getFile("classpath:img/"+productName+"/"+productName+".png");
+      File file = ResourceUtils.getFile("classpath:img/" + productName + "/" + productName + ".png");
       BufferedImage image = ImageIO.read(file);
-      writeFile = new File(file.getParent()+"_"+template.getValue().toLowerCase()+".gif");
+      writeFile = new File(file.getParent() + "_" + template.getValue().toLowerCase() + ".gif");
       ImageOutputStream imageOutputStream = new FileImageOutputStream(writeFile);
-      if(Template.ROUND_ROTATION.equals(template)) {
+      if (Template.ROUND_ROTATION.equals(template)) {
         GifCreator.createRoundRotationGif(image, imageOutputStream, offerText);
-      } else if(Template.ZOOM_EFFECT.equals(template)) {
+      } else if (Template.ZOOM_EFFECT.equals(template)) {
         GifCreator.createZoomGif(image, imageOutputStream, offerText);
       }
     } catch (IOException e) {
@@ -91,66 +89,41 @@ public class HologramControllerV2 {
   }
 
   @CrossOrigin(origins = "*")
-  @RequestMapping(value = "image/gif/generator", method = RequestMethod.POST)
-  @ApiOperation(value = "Generate Hologram Gif from simple image")
-  public ResponseEntity<byte[]> hologramGifGenerator(@RequestBody HologramCreationRequest hologramCreationRequest) {
-    File writeFile;
-    byte[] output = null;
-    try {
-      String productName = hologramCreationRequest.getProductName();
-      String offerText = hologramCreationRequest.getOfferText();
-      Template template = hologramCreationRequest.getTemplate();
-      File file = ResourceUtils.getFile("classpath:img/"+productName+"/"+productName+".png");
-      BufferedImage image = ImageIO.read(file);
-      writeFile = new File(file.getParent()+"_"+template.getValue().toLowerCase()+".gif");
-      ImageOutputStream imageOutputStream = new FileImageOutputStream(writeFile);
-      if(Template.ROUND_ROTATION.equals(template)) {
-        GifCreator.createRoundRotationGif(image, imageOutputStream, offerText);
-      } else if(Template.ZOOM_EFFECT.equals(template)) {
-        GifCreator.createZoomGif(image, imageOutputStream, offerText);
-      }
-      output = Base64.encodeBase64(Files.readAllBytes(writeFile.toPath()));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    if (output != null) {
-      final HttpHeaders headers = new HttpHeaders();
-      headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-      return new ResponseEntity<>(output, headers, HttpStatus.OK);
-    }
-    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-  }
-
-  @CrossOrigin(origins = "*")
   @RequestMapping(value = "image/video/generator", method = RequestMethod.POST)
   @ApiOperation(value = "Generate Hologram Gif from simple image")
-  public ResponseEntity hologramVideoGenerator(@RequestBody HologramCreationRequest hologramCreationRequest) {
+  public ResponseEntity<String> hologramVideoGenerator(@RequestBody HologramCreationRequest hologramCreationRequest) {
+    String outputFile = null;
     try {
       String productName = hologramCreationRequest.getProductName();
       String offerText = hologramCreationRequest.getOfferText();
       Template template = hologramCreationRequest.getTemplate();
-      File file = ResourceUtils.getFile("classpath:img/"+productName+"/"+productName+".png");
+      File file = ResourceUtils.getFile("classpath:img/" + productName + "/" + productName + ".png");
       BufferedImage image = ImageIO.read(file);
       BufferedImage[] bufferedImages = null;
-      if(Template.ROUND_ROTATION.equals(template)) {
+      if (Template.ROUND_ROTATION.equals(template)) {
         bufferedImages = Util.getRoundRotatedImages(image, offerText);
-      } else if(Template.ZOOM_EFFECT.equals(template)) {
+      } else if (Template.ZOOM_EFFECT.equals(template)) {
         bufferedImages = Util.getZoomImages(image, offerText);
       }
-      String outputFile = file.getParent()+"_"+template.getValue().toLowerCase()+".mp4";
+      outputFile = file.getParent() + "_" + template.getValue().toLowerCase() + ".mp4";
       VideoCreator.getMp4VideoFromImages(bufferedImages, outputFile);
-      new Thread(()-> hologramGifGenerator(hologramCreationRequest)).start();
+      new Thread(() -> hologramGifGenerator(hologramCreationRequest)).start();
       QueueObject queueObject = new QueueObject();
       queueObject.setProductName(productName);
       queueObject.setImageLink(file.getPath());
       queueObject.setVideoLink(outputFile);
-      queueObject.setGifLink(file.getParent()+"_"+template.getValue().toLowerCase()+".gif");
+      queueObject.setGifLink(file.getParent() + "_" + template.getValue().toLowerCase() + ".gif");
       inMemoryQueueService.add(queueObject);
     } catch (IOException e) {
       e.printStackTrace();
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    return new ResponseEntity<>(HttpStatus.OK);
+    if (outputFile != null) {
+      final HttpHeaders headers = new HttpHeaders();
+      headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+      return new ResponseEntity<>(outputFile, headers, HttpStatus.OK);
+    }
+    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
   @CrossOrigin(origins = "*")
@@ -168,25 +141,5 @@ public class HologramControllerV2 {
     final HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
     return new ResponseEntity<>(queueObjects, headers, HttpStatus.OK);
-  }
-
-  @CrossOrigin(origins = "*")
-  @RequestMapping(value = "get/gif", method = RequestMethod.GET)
-  @ApiOperation(value = "Get gif image of the selected product")
-  public ResponseEntity<byte[]> getGifImageForPath(@RequestParam String gifLink) {
-    byte[] output;
-    try {
-      File file = ResourceUtils.getFile("classpath:img/" + gifLink + ".gif");
-      output = Base64.encodeBase64(Files.readAllBytes(file.toPath()));
-    } catch(IOException e) {
-      e.printStackTrace();
-      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-    if (output != null) {
-      final HttpHeaders headers = new HttpHeaders();
-      headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-      return new ResponseEntity<>(output, headers, HttpStatus.OK);
-    }
-    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }
