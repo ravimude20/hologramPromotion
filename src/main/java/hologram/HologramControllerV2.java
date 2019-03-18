@@ -40,7 +40,6 @@ public class HologramControllerV2 {
      List<String> allProductsList = new ArrayList<>();
      allProductsList.add("coca-cola1");
     allProductsList.add("coca-cola2");
-    allProductsList.add("coca-cola2");
     allProductsList.add("hbeer");
     allProductsList.add("nike-shoe");
     allProductsList.add("puma-shoe");
@@ -64,9 +63,8 @@ public class HologramControllerV2 {
   @CrossOrigin(origins = "*")
   @RequestMapping(value = "image/gif/generator1", method = RequestMethod.POST)
   @ApiOperation(value = "Generate Hologram Gif from simple image")
-  public ResponseEntity<byte[]> hologramGifGenerator1(@RequestBody HologramCreationRequest hologramCreationRequest) {
-    File writeFile;
-    byte[] b = null;
+  public ResponseEntity<String> hologramGifGenerator1(@RequestBody HologramCreationRequest hologramCreationRequest) {
+    File writeFile = null;
     try {
       String productName = hologramCreationRequest.getProductName();
       String offerText = hologramCreationRequest.getOfferText();
@@ -80,15 +78,14 @@ public class HologramControllerV2 {
       } else if(Template.ZOOM_EFFECT.equals(template)) {
         GifCreator.createZoomGif(image, imageOutputStream, offerText);
       }
-      b = Files.readAllBytes(writeFile.toPath());
     } catch (IOException e) {
       e.printStackTrace();
     }
 
-    if (b != null) {
+    if (writeFile != null) {
       final HttpHeaders headers = new HttpHeaders();
-      headers.setContentType(MediaType.IMAGE_GIF);
-      return new ResponseEntity<>(b, headers, HttpStatus.OK);
+      headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+      return new ResponseEntity<>(writeFile.getPath(), headers, HttpStatus.OK);
     }
     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
   }
