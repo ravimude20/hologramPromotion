@@ -18,7 +18,7 @@ public class HologramControllerV1Test {
 
   // This is for prism. Not going to work on hologram fan
   public void generateHologramFromText_whenValidText_generateHologramImage() {
-    String text = "30% off on coca-cola1";
+    String text = "30% off on coca-cola";
     hologramControllerV1.generateHologramFromText(text);
   }
 }

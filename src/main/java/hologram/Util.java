@@ -18,7 +18,7 @@ public class Util {
 
   public static BufferedImage[] getZoomImages(BufferedImage masterImg, String offerText) {
     List<BufferedImage> bufferedImageList = new ArrayList<>();
-    BufferedImage image = new BufferedImage(masterImg.getWidth(), masterImg.getHeight(), masterImg.getType());
+    BufferedImage image = new BufferedImage(masterImg.getHeight(), masterImg.getHeight(), masterImg.getType());
     Graphics2D g2d = image.createGraphics();
     g2d.scale(DEFAULT_SCALE, DEFAULT_SCALE);
     g2d.drawRenderedImage(masterImg, null);

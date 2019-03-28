@@ -11,7 +11,7 @@ public class InMemoryQueueService<E> {
   private final List<E> queue;
 
   public InMemoryQueueService() {
-    this.queue = new LinkedList();
+    this.queue = new LinkedList<>();
   }
 
   public void add(E record) {
