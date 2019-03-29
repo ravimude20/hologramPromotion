@@ -119,6 +119,8 @@ public class HologramControllerV2 {
       queueObject.setImageLink(file.getPath());
       queueObject.setVideoLink(outputFile);
       queueObject.setGifLink(file.getParent() + "_" + template.getValue().toLowerCase() + ".gif");
+      queueObject.setPromotionName(hologramCreationRequest.getPromotionName());
+      queueObject.setOfferText(hologramCreationRequest.getOfferText());
       inMemoryQueueService.add(queueObject);
     } catch (IOException e) {
       e.printStackTrace();

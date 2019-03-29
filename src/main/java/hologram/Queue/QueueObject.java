@@ -4,6 +4,10 @@ public class QueueObject {
 
   private String productName;
 
+  private String offerText;
+
+  private String promotionName;
+
   private String videoLink;
 
   private String imageLink;
@@ -17,6 +21,22 @@ public class QueueObject {
 
   public String getProductName() {
     return productName;
+  }
+
+  public String getOfferText() {
+    return offerText;
+  }
+
+  public void setOfferText(String offerText) {
+    this.offerText = offerText;
+  }
+
+  public String getPromotionName() {
+    return promotionName;
+  }
+
+  public void setPromotionName(String promotionName) {
+    this.promotionName = promotionName;
   }
 
   public void setProductName(String productName) {

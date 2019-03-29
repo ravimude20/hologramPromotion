@@ -9,6 +9,8 @@ import javax.validation.constraints.NotNull;
 public class HologramCreationRequest {
 
   @NotNull
+  private String promotionName;
+  @NotNull
   private String productName;
   @NotNull
   private String offerText;
@@ -18,10 +20,11 @@ public class HologramCreationRequest {
   public HologramCreationRequest() {
   }
 
-  public HologramCreationRequest(String productName, String offerText, Template template) {
+  public HologramCreationRequest(String promotionName, String productName, String offerText, Template template) {
     this.productName = productName;
     this.offerText = offerText;
     this.template = template;
+    this.promotionName = promotionName;
   }
 
   public String getProductName() {
@@ -46,5 +49,13 @@ public class HologramCreationRequest {
 
   public void setTemplate(Template template) {
     this.template = template;
+  }
+
+  public String getPromotionName() {
+    return promotionName;
+  }
+
+  public void setPromotionName(String promotionName) {
+    this.promotionName = promotionName;
   }
 }
