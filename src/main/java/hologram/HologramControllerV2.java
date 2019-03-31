@@ -43,10 +43,6 @@ public class HologramControllerV2 {
     allProductsList.add("pepsi");
     allProductsList.add("sprite");
 
-    allProductsList.add("hbeer");
-    allProductsList.add("nike-shoe");
-    allProductsList.add("puma-shoe");
-
     final HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
     return new ResponseEntity<>(allProductsList, headers, HttpStatus.OK);
