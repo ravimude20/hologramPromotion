@@ -110,6 +110,7 @@ public class HologramControllerV2 {
       Template template = hologramCreationRequest.getTemplate();
       if(!allProductsList.contains(productName)) {
         productName = "sprite";
+        hologramCreationRequest.setProductName(productName);
       }
       File file = ResourceUtils.getFile("classpath:img/" + productName + "/" + productName + ".png");
       BufferedImage image = ImageIO.read(file);
