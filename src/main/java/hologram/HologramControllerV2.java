@@ -39,11 +39,12 @@ public class HologramControllerV2 {
   @Autowired
   private InMemoryQueueService<QueueObject> inMemoryQueueService;
 
+  List<String> allProductsList = new ArrayList<>();
+
   @CrossOrigin(origins = "*")
   @RequestMapping(value = "get/allProducts", method = RequestMethod.GET)
   @ApiOperation(value = "Get all products available in the repository")
   public ResponseEntity<List<String>> getAllProducts() {
-    List<String> allProductsList = new ArrayList<>();
     allProductsList.add("coca-cola");
     allProductsList.add("diet-coke");
     allProductsList.add("fanta");
@@ -102,11 +103,14 @@ public class HologramControllerV2 {
   @RequestMapping(value = "image/video/generator", method = RequestMethod.POST)
   @ApiOperation(value = "Generate Hologram Gif from simple image")
   public ResponseEntity<String> hologramVideoGenerator(@RequestBody HologramCreationRequest hologramCreationRequest) {
-    String outputFile = null;
+    String outputFile;
     try {
       String productName = hologramCreationRequest.getProductName();
       String offerText = hologramCreationRequest.getOfferText();
       Template template = hologramCreationRequest.getTemplate();
+      if(!allProductsList.contains(productName)) {
+        productName = "sprite";
+      }
       File file = ResourceUtils.getFile("classpath:img/" + productName + "/" + productName + ".png");
       BufferedImage image = ImageIO.read(file);
       BufferedImage[] bufferedImages = null;
