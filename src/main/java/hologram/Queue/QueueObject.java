@@ -14,6 +14,8 @@ public class QueueObject {
 
   private String gifLink;
 
+  private String displayDevice;
+
   private int numberOfFrames;
 
   public QueueObject() {
@@ -73,5 +75,13 @@ public class QueueObject {
 
   public void setGifLink(String gifLink) {
     this.gifLink = gifLink;
+  }
+
+  public String getDisplayDevice() {
+    return displayDevice;
+  }
+
+  public void setDisplayDevice(String displayDevice) {
+    this.displayDevice = displayDevice;
   }
 }

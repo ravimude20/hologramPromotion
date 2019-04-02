@@ -18,11 +18,19 @@ import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
 
+
 import java.awt.image.BufferedImage;
+
+import java.io.BufferedInputStream;
 import java.io.File;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.*;
+
+import java.net.URL;
+import java.lang.String;
 
 @RestController()
 @RequestMapping(value = "hologram/v2/")
@@ -113,13 +121,24 @@ public class HologramControllerV2 {
       }
       outputFile = file.getParent() + "_" + template.getValue().toLowerCase() + ".mp4";
       VideoCreator.getMp4VideoFromImages(bufferedImages, outputFile);
+
+      URL url = file.toURI().toURL();
+      BufferedInputStream imageInFile = new BufferedInputStream(url.openConnection().getInputStream());
+      byte imageData[] = new byte[91044];
+      /*List<Byte> imageData = new ArrayList<Byte>();*/
+      imageInFile.read(imageData);
+
+      String imageDataString = encodeImage(imageData);
+
+
       new Thread(() -> hologramGifGenerator(hologramCreationRequest)).start();
       QueueObject queueObject = new QueueObject();
       queueObject.setProductName(productName);
-      queueObject.setImageLink(file.getPath());
+      queueObject.setImageLink("data:image/jpeg;base64," + imageDataString);
       queueObject.setVideoLink(outputFile);
       queueObject.setGifLink(file.getParent() + "_" + template.getValue().toLowerCase() + ".gif");
       queueObject.setPromotionName(hologramCreationRequest.getPromotionName());
+      queueObject.setDisplayDevice("Hologram 1");
       queueObject.setOfferText(hologramCreationRequest.getOfferText());
       inMemoryQueueService.add(queueObject);
     } catch (IOException e) {
@@ -132,6 +151,11 @@ public class HologramControllerV2 {
       return new ResponseEntity<>(outputFile, headers, HttpStatus.OK);
     }
     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  public static String encodeImage(byte[] imageByteArray) {
+    return Base64.getEncoder().encodeToString(imageByteArray);
+    /*return EncodingUtil.base64Encode(image)*/
   }
 
   @CrossOrigin(origins = "*")
@@ -150,4 +174,6 @@ public class HologramControllerV2 {
     headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
     return new ResponseEntity<>(queueObjects, headers, HttpStatus.OK);
   }
+
+
 }
