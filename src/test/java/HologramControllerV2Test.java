@@ -50,7 +50,7 @@ public class HologramControllerV2Test {
   public void gif_creation_zoomed() {
     try {
       File file = ResourceUtils.getFile("classpath:img/diet-coke/diet-coke.png");
-      String offerText = "Buy 2 get 15% off";
+      String offerText = "Buy 2 get 1";
       BufferedImage image;
       image = ImageIO.read(file);
       ImageOutputStream imageOutputStream = new FileImageOutputStream(new File(file.getParent()+".gif"));
@@ -64,9 +64,9 @@ public class HologramControllerV2Test {
   @Test
   public void getMp4video_fromZoomedImages() {
     try {
-      File file = ResourceUtils.getFile("classpath:img/diet-coke/diet-coke.png");
+      File file = ResourceUtils.getFile("classpath:img/pepsi/pepsi.png");
       String outputFile = file.getParent()+".mp4";
-      String offerText = "Buy 2 get 15% off";
+      String offerText = "Get 15% off";
       BufferedImage image;
       image = ImageIO.read(file);
       BufferedImage [] bufferedImages = Util.getZoomImages(image, offerText);

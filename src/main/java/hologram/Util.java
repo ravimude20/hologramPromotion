@@ -18,7 +18,7 @@ public class Util {
 
   public static BufferedImage[] getZoomImages(BufferedImage masterImg, String offerText) {
     List<BufferedImage> bufferedImageList = new ArrayList<>();
-    BufferedImage image = new BufferedImage(masterImg.getHeight(), masterImg.getHeight(), masterImg.getType());
+    BufferedImage image = new BufferedImage(masterImg.getWidth(), masterImg.getHeight(), masterImg.getType());
     Graphics2D g2d = image.createGraphics();
     g2d.scale(DEFAULT_SCALE, DEFAULT_SCALE);
     g2d.drawRenderedImage(masterImg, null);
@@ -72,9 +72,11 @@ public class Util {
 
   private static void getTextOnImageZoom(String offerText, BufferedImage tempImage) {
     Graphics g = tempImage.getGraphics();
-    g.setFont(g.getFont().deriveFont(60F));
+    g.setFont(g.getFont().deriveFont(tempImage.getWidth() >= 600 ? 60F : 50F));
     g.setColor(Color.WHITE);
-    g.drawString(offerText, tempImage.getWidth()/8, tempImage.getHeight()/4);
+    int x = offerText.length() > 14 ? (tempImage.getWidth()/8) : (tempImage.getWidth()/4);
+    int y = tempImage.getHeight()/4;
+    g.drawString(offerText, x, y);
     Font font = new Font("Tahoma", Font.BOLD, 80);
     g.setFont(font);
     g.dispose();
