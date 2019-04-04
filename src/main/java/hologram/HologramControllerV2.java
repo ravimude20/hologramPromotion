@@ -39,19 +39,13 @@ public class HologramControllerV2 {
   @Autowired
   private InMemoryQueueService<QueueObject> inMemoryQueueService;
 
-  List<String> allProductsList = new ArrayList<>();
+  List<String> allProductsList = Arrays.asList("coca-cola", "diet-coke", "fanta", "mirinda", "pepsi", "sprite");
+
 
   @CrossOrigin(origins = "*")
   @RequestMapping(value = "get/allProducts", method = RequestMethod.GET)
   @ApiOperation(value = "Get all products available in the repository")
   public ResponseEntity<List<String>> getAllProducts() {
-    allProductsList.add("coca-cola");
-    allProductsList.add("diet-coke");
-    allProductsList.add("fanta");
-    allProductsList.add("mirinda");
-    allProductsList.add("pepsi");
-    allProductsList.add("sprite");
-
     final HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
     return new ResponseEntity<>(allProductsList, headers, HttpStatus.OK);
@@ -105,7 +99,7 @@ public class HologramControllerV2 {
   public ResponseEntity<String> hologramVideoGenerator(@RequestBody HologramCreationRequest hologramCreationRequest) {
     String outputFile;
     try {
-      String productName = hologramCreationRequest.getProductName();
+      String productName = hologramCreationRequest.getProductName() != null ? hologramCreationRequest.getProductName().toLowerCase() : "sprite";
       String offerText = hologramCreationRequest.getOfferText();
       Template template = hologramCreationRequest.getTemplate();
       if(!allProductsList.contains(productName)) {
@@ -120,7 +114,8 @@ public class HologramControllerV2 {
       } else if (Template.ZOOM_EFFECT.equals(template)) {
         bufferedImages = Util.getZoomImages(image, offerText);
       }
-      outputFile = file.getParent() + "_" + template.getValue().toLowerCase() + ".mp4";
+      UUID uid = UUID.randomUUID();
+      outputFile = file.getParent() + "_" + uid.toString().substring(0,8) + ".mp4";
       VideoCreator.getMp4VideoFromImages(bufferedImages, outputFile);
 
       URL url = file.toURI().toURL();

@@ -64,9 +64,9 @@ public class HologramControllerV2Test {
   @Test
   public void getMp4video_fromZoomedImages() {
     try {
-      File file = ResourceUtils.getFile("classpath:img/pepsi/pepsi.png");
+      File file = ResourceUtils.getFile("classpath:img/crystalBall.png");
       String outputFile = file.getParent()+".mp4";
-      String offerText = "Get 15% off";
+      String offerText = "";
       BufferedImage image;
       image = ImageIO.read(file);
       BufferedImage [] bufferedImages = Util.getZoomImages(image, offerText);
