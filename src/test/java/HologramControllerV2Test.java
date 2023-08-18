@@ -142,4 +142,20 @@ public class HologramControllerV2Test {
       e.printStackTrace();
     }
   }
+
+   // Create zoom rotation Video from set of buffered Images
+  @Test
+  public void getMp4video_fromZoomedImages_test1() {
+    try {
+      File file = ResourceUtils.getFile("classpath:img/crystalBall.png");
+      String outputFile = file.getParent()+".mp4";
+      String offerText = "";
+      BufferedImage image;
+      image = ImageIO.read(file);
+      BufferedImage [] bufferedImages = Util.getZoomImages(image, offerText);
+      VideoCreator.getMp4VideoFromImages(bufferedImages, outputFile);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
 }
