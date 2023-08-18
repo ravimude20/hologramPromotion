@@ -26,4 +26,9 @@ public class HologramControllerV1Test {
     String text = "40% off on coca-cola";
     hologramControllerV1.generateHologramFromText(text);
   }
+
+   public void generateHologramFromText_whenValidText_generateHologramImage2() {
+    String text = "50% off on coca-cola";
+    hologramControllerV1.generateHologramFromText(text);
+  }
 }
