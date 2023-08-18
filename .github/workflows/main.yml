@@ -14,6 +14,6 @@ jobs:
         uses: actions/checkout@v3
 
       - name: AI Code Reviewer
-        uses: ravimude20/ai-code-reviewer@main
+        uses: ravimude20/smartReviewer@main
         with:
           exclude: "**/*.json, **/*.md" # Optional: exclude patterns separated by commas
