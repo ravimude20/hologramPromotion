@@ -16,4 +16,6 @@ jobs:
       - name: AI Code Reviewer
         uses: ravimude20/smartReviewer@main
         with:
+          GITHUB_TOKEN: ${{ secrets.GITHUBTOKEN }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           exclude: "**/*.json, **/*.md" # Optional: exclude patterns separated by commas
