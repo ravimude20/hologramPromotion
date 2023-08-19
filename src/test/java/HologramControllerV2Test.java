@@ -59,6 +59,22 @@ public class HologramControllerV2Test {
       }
     }
 
+   // Create round rotation Video from set of buffered Images
+  @Test
+  public void getMp4video_fromRoundRotationImages_test() {
+    try {
+      File file = ResourceUtils.getFile("classpath:img/coca-cola/coca-cola.png");
+      String offerText = "Buy 2 get 15% off";
+      String outputFile = file.getParent()+".mp4";
+      BufferedImage image;
+      image = ImageIO.read(file);
+      BufferedImage [] bufferedImages = Util.getRoundRotatedImages(image, offerText);
+      VideoCreator.getMp4VideoFromImages(bufferedImages, outputFile);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+
   // Create zoom gif for hologram fan
   @Test
   public void gif_creation_zoomed() {
