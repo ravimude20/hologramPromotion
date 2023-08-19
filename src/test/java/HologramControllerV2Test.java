@@ -60,6 +60,21 @@ public class HologramControllerV2Test {
     }
   }
 
+    // Create zoom gif for hologram fan
+  @Test
+  public void gif_creation_zoomed_test() {
+    try {
+      File file = ResourceUtils.getFile("classpath:img/diet-coke/diet-coke.png");
+      String offerText = "Buy 2 get 1";
+      BufferedImage image;
+      image = ImageIO.read(file);
+      ImageOutputStream imageOutputStream = new FileImageOutputStream(new File(file.getParent()+".gif"));
+      GifCreator.createZoomGif(image, imageOutputStream, offerText);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
   // Create zoom rotation Video from set of buffered Images
   @Test
   public void getMp4video_fromZoomedImages() {
