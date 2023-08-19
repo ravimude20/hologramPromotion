@@ -29,6 +29,21 @@ public class HologramControllerV2Test {
     }
   }
 
+  // Create round gif for hologram fan
+  @Test
+  public void gif_creation_rotaton_test() {
+    try {
+      File file = ResourceUtils.getFile("classpath:img/puma-shoe/puma-shoe.png");
+      String offerText = "Buy 2 get 15% off";
+      BufferedImage image;
+      image = ImageIO.read(file);
+      ImageOutputStream imageOutputStream = new FileImageOutputStream(new File(file.getParent()+".gif"));
+      GifCreator.createRoundRotationGif(image, imageOutputStream, offerText);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
   // Create round rotation Video from set of buffered Images
   @Test
   public void getMp4video_fromRoundRotationImages() {
