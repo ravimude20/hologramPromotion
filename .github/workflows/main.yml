@@ -16,5 +16,4 @@ jobs:
       - name: AI Code Reviewer
         uses: ravimude20/smartReviewer@main
         with:
-          GITHUB_TOKEN: "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"
           exclude: "**/*.json, **/*.md" # Optional: exclude patterns separated by commas
