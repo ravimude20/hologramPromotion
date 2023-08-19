@@ -22,6 +22,8 @@ public class HologramControllerV2Test {
       String offerText = "Buy 2 get 15% off";
       BufferedImage image;
       image = ImageIO.read(file);
+      BufferedImage image2;
+      image2 = ImageIO.read(file);
       ImageOutputStream imageOutputStream = new FileImageOutputStream(new File(file.getParent()+".gif"));
       GifCreator.createRoundRotationGif(image, imageOutputStream, offerText);
     } catch (IOException e) {
